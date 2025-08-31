@@ -38,7 +38,7 @@ jobs:
             --main-jar BankingApp.jar \
             --main-class dev.bank.app.Login \
             --type deb \
-            --dest target
+            --dest target \
             --icon src/main/resources/icons/logo.png
 
       - name: Upload Linux Artifact
