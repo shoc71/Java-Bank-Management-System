@@ -54,6 +54,7 @@
               <mainClass>dev.bank.app.Login</mainClass>
             </manifest>
           </archive>
+          <finalName>BankingApp</finalName> <!-- this will produce BankingApp.jar -->
         </configuration>
       </plugin>
 

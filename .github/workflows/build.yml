@@ -25,6 +25,8 @@ jobs:
           
       - name: Package with jpackage (Linux .deb)
         run: |
+          cd banking-app
+          ls -l target   # check JAR exists
           jpackage \
             --name BankingApp \
             --input target \
