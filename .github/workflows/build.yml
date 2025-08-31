@@ -63,6 +63,8 @@ jobs:
 
       - name: Package with jpackage (Windows .exe)
         run: |
+          cd banking-app
+          ls -l target   # check JAR exists
           jpackage ^
             --name BankingApp ^
             --input target ^
@@ -96,6 +98,8 @@ jobs:
 
       - name: Package with jpackage (macOS .dmg)
         run: |
+          cd banking-app
+          ls -l target   # check JAR exists
           jpackage \
             --name BankingApp \
             --input target \
