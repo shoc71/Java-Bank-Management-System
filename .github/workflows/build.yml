@@ -62,6 +62,7 @@ jobs:
           mvn -B package --file pom.xml
 
       - name: Package with jpackage (Windows .exe)
+        shell : cmd
         run: |
           cd banking-app
           jpackage ^
