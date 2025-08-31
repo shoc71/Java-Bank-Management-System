@@ -39,7 +39,7 @@ jobs:
             --main-class dev.bank.app.Login \
             --type deb \
             --dest target \
-            --icon src/main/resources/icons/logo.png
+            --icon src/main/resources/icons/logo.jpg
 
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4
