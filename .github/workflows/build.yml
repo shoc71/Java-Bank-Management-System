@@ -30,7 +30,7 @@ jobs:
           jpackage \
             --name BankingApp \
             --input target \
-            --main-jar banking-app-1.0-SNAPSHOT.jar \
+            --main-jar BankingApp.jar \
             --main-class dev.bank.app.Login \
             --type deb \
             --dest target
