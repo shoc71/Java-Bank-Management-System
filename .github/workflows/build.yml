@@ -1,0 +1,133 @@
+name: Build and Package BankingApp
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build with Maven
+        run: |
+          cd banking-app
+          mvn -B package --file pom.xml
+
+      - name: List target folder (Linux)
+        run: |
+          cd banking-app/target
+          ls -l
+          
+      - name: Package with jpackage (Linux .deb)
+        run: |
+          cd banking-app
+          ls -l target   # check JAR exists
+          jpackage \
+            --name BankingApp \
+            --input target \
+            --main-jar BankingApp.jar \
+            --main-class dev.bank.app.Login \
+            --type deb \
+            --dest target \
+            --icon src/main/resources/icons/logo.jpg
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BankingApp-deb
+          path: banking-app/target/*.deb
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install WiX Toolset
+        run: choco install wixtoolset --no-progress -y
+
+      - name: Build with Maven
+        run: |
+          cd banking-app
+          mvn -B package --file pom.xml
+
+      - name: List target folder (Windows)
+        run: |
+          cd banking-app\target
+          dir
+
+      - name: Package with jpackage (Windows .exe)
+        shell : cmd
+        run: |
+          cd banking-app
+          jpackage ^
+            --name BankingApp ^
+            --input target ^
+            --main-jar BankingApp.jar ^
+            --main-class dev.bank.app.Login ^
+            --type exe ^
+            --dest target ^
+            --icon src\main\resources\icons\logo.ico
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BankingApp-exe
+          path: banking-app/target/*.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build with Maven
+        run: |
+          cd banking-app
+          mvn -B package --file pom.xml
+
+      - name: List target folder (macOS)
+        run: |
+          cd banking-app/target
+          ls -l
+
+      - name: Package with jpackage (macOS .dmg)
+        run: |
+          cd banking-app
+          ls -l target   # check JAR exists
+          jpackage \
+            --name BankingApp \
+            --input target \
+            --main-jar BankingApp.jar \
+            --main-class dev.bank.app.Login \
+            --type dmg \
+            --dest target \
+            --icon src/main/resources/icons/logo.icns
+
+      - name: Upload macOS Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BankingApp-dmg
+          path: banking-app/target/*.dmg
